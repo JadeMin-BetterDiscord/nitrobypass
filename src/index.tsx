@@ -1,31 +1,20 @@
-import type { BdApi, Plugin } from 'betterdiscord';
-import type { APIUser } from 'discord-api-types/v10';
-import type { ToCamel } from "./@types/extensions.js";
-declare type UserPremiumType = -1 | 0 | 1 | 2 | 3;
+import type { Plugin } from 'betterdiscord';
 
-import { prompt } from "./prompt.js";
+import { prompt } from "./.modules/prompt.js";
+
+import Live from "./live.js";
+import Emoji from "./emoji.js";
+const { Webpack, Patcher } = BdApi;
 
 
 
 export default class implements Plugin {
-	#defaultPremiumType: UserPremiumType = -1;
-
-
-	private async getCurrentUser(): Promise<ToCamel<APIUser>> {
-		const filter = BdApi.Webpack.Filters.byProps("getCurrentUser");
-		return (await BdApi.Webpack.waitForModule(filter)).getCurrentUser();
-	};
-
 	public async start(): Promise<void> {
-		const currentUser = await this.getCurrentUser();
-		this.#defaultPremiumType = currentUser.premiumType!;
-		currentUser.premiumType = 2;
-		const result = await prompt("Premium Type", "Hello, World!");
-		console.log(result);
+		await Live.start();
+		await Emoji.start();
 	};
-
 	public async stop(): Promise<void> {
-		const currentUser = await this.getCurrentUser();
-		currentUser.premiumType = this.#defaultPremiumType;
+		await Live.stop();
+		await Emoji.stop();
 	};
 };

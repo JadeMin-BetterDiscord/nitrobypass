@@ -1,7 +1,8 @@
-const { React, Webpack, UI } = BdApi;
+const { React, Webpack } = BdApi;
 
 
 
+// ref: https://github.com/rauenzi/BDPluginLibrary/blob/master/src/modules/discordmodules.js
 export const prompt = async (title: string, defaultValue=''): Promise<string | null> => {
 	const { Messages } = await Webpack.waitForModule(m=> m?.Messages && Object.keys(m?.Messages).length);
 	const ConfirmationModal = await Webpack.waitForModule(m=> m?.toString?.()?.includes(".confirmButtonColor"), {

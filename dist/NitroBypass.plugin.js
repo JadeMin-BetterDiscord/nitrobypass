@@ -30,71 +30,69 @@ __export(src_exports, {
 });
 module.exports = __toCommonJS(src_exports);
 
-// src/prompt.tsx
-var { React, Webpack, UI } = BdApi;
-var prompt = async (title, defaultValue = "") => {
-  const { Messages } = await Webpack.waitForModule((m) => m?.Messages && Object.keys(m?.Messages).length);
-  const ConfirmationModal = await Webpack.waitForModule((m) => m?.toString?.()?.includes(".confirmButtonColor"), {
-    searchExports: true
-  });
-  const ButtonData = await Webpack.waitForModule((m) => m?.BorderColors, { searchExports: true });
-  const TextBox = await Webpack.waitForModule((m) => m?.defaultProps?.type === "text", {
-    searchExports: true
-  });
-  const openModal = await Webpack.waitForModule((m) => m?.toString?.()?.includes("onCloseCallback") && m?.toString?.()?.includes("Layer"), {
-    searchExports: true
-  });
-  let toReturn = defaultValue;
-  return new Promise((resolve) => {
-    openModal((props) => {
-      if (props.transitionState === 3)
-        return resolve(null);
-      return /* @__PURE__ */ React.createElement(
-        ConfirmationModal,
-        {
-          header: title,
-          confirmButtonColor: ButtonData.Colors.BRAND,
-          confirmText: Messages.OKAY,
-          cancelText: Messages.CANCEL,
-          onConfirm: () => resolve(toReturn),
-          onCancel: () => resolve(null),
-          ...props,
-          children: React.createElement(React.memo(() => {
-            const [value, setValue] = React.useState(defaultValue);
-            return /* @__PURE__ */ React.createElement(
-              TextBox,
-              {
-                value,
-                onInput: ({ target }) => {
-                  setValue(target.value);
-                  toReturn = target.value;
-                }
-              }
-            );
-          }))
-        }
-      );
+// src/live.tsx
+var { Webpack } = BdApi;
+var defaultPremiumType = -1;
+var getCurrentUser = async () => {
+  return (await Webpack.waitForModule(Webpack.Filters.byProps("getCurrentUser"))).getCurrentUser();
+};
+var live_default = {
+  async start() {
+    const currentUser = await getCurrentUser();
+    defaultPremiumType = currentUser.premiumType;
+    currentUser.premiumType = 2;
+  },
+  async stop() {
+    const currentUser = await getCurrentUser();
+    currentUser.premiumType = defaultPremiumType;
+  }
+};
+
+// src/emoji.tsx
+var { Webpack: Webpack2, Patcher } = BdApi;
+var emoji_default = {
+  async start() {
+    const MessageActions = Webpack2.getModule(Webpack2.Filters.byProps("jumpToMessage", "_sendMessage"));
+    Patcher.before("SEND_EMOJI", MessageActions, "sendMessage", (thisObject, args) => {
+      const [channelId, message] = args;
+      const invalidEmojis = message.validNonShortcutEmojis;
+      if (invalidEmojis.length > 0) {
+        invalidEmojis.forEach((emoji) => {
+          if (emoji.url.startsWith("/assets/"))
+            return;
+          const emojiFull = `<${emoji.animated ? "a" : ""}${emoji.allNamesString}${emoji.id}>`;
+          message.content = message.content.replace(emojiFull, `${emoji.url}&size=${48}`);
+        });
+      }
+      return args;
     });
-  });
+    Patcher.before("EDIT_EMOJI", MessageActions, "editMessage", (thisObject, args) => {
+      const [guildId, channelId, message] = args;
+      const rawEmoji = message.content.match(/<(a)?:(.*)?:\d{18}>/g);
+      if (rawEmoji) {
+        rawEmoji.forEach((emoji) => {
+          const emojiUrl = `https://cdn.discordapp.com/emojis/${emoji.match(/\d{18}/g)[0]}?size=${48}`;
+          message.content = message.content.replace(emoji, emojiUrl);
+        });
+      }
+    });
+  },
+  async stop() {
+    Patcher.unpatchAll("SEND_EMOJI");
+    Patcher.unpatchAll("EDIT_EMOJI");
+  }
 };
 
 // src/index.tsx
+var { Webpack: Webpack3, Patcher: Patcher2 } = BdApi;
 var src_default = class {
-  #defaultPremiumType = -1;
-  async getCurrentUser() {
-    const filter = BdApi.Webpack.Filters.byProps("getCurrentUser");
-    return (await BdApi.Webpack.waitForModule(filter)).getCurrentUser();
-  }
   async start() {
-    const currentUser = await this.getCurrentUser();
-    this.#defaultPremiumType = currentUser.premiumType;
-    currentUser.premiumType = 2;
-    const result = await prompt("Premium Type", "Hello, World!");
-    console.log(result);
+    await live_default.start();
+    await emoji_default.start();
   }
   async stop() {
-    const currentUser = await this.getCurrentUser();
-    currentUser.premiumType = this.#defaultPremiumType;
+    await live_default.stop();
+    await emoji_default.stop();
   }
 };
 // Annotate the CommonJS export names for ESM import in node:
