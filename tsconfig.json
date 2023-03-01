@@ -3,6 +3,7 @@
 		"strict": true,
 
 		"resolveJsonModule": true,
+		"esModuleInterop": true,
 		
 		"module": "NodeNext",
 		"target": "esnext",

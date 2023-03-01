@@ -1,10 +1,7 @@
 import type { Plugin } from 'betterdiscord';
 
-import { prompt } from "./.modules/prompt.js";
-
 import Live from "./live.js";
 import Emoji from "./emoji.js";
-const { Webpack, Patcher } = BdApi;
 
 
 

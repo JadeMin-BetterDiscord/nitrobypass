@@ -1,7 +1,7 @@
 import type { BuildOptions } from 'esbuild';
 
 import ESBuild from 'esbuild';
-import { getMetaString } from "./meta.js";
+import { getStringMeta, getMeta } from "./meta.js";
 
 const defaultBuildOptions: BuildOptions = {
 	entryPoints: ["./src/index.tsx"],
@@ -13,11 +13,8 @@ const defaultBuildOptions: BuildOptions = {
 	bundle: true,
 	treeShaking: true,
 
-	/*jsxFactory: "BdApi.React.createElement",
-	jsxFragment: "BdApi.React.Fragment",*/
-
 	banner: {
-		js: getMetaString()
+		js: getStringMeta()
 	}
 };
 
@@ -25,14 +22,14 @@ const defaultBuildOptions: BuildOptions = {
 
 await ESBuild.build({
 	...defaultBuildOptions,
-	outfile: `${process.env.APPDATA}/BetterDiscord/plugins/NitroBypass.plugin.js`,
+	outfile: `${process.env.APPDATA}/BetterDiscord/plugins/${getMeta('name')}.plugin.js`,
 
-	minify: true
+	minify: true,
 });
 await ESBuild.build({
 	...defaultBuildOptions,
 	outfile: "./dist/NitroBypass.plugin.js",
 
-	minify: false,
+	minifySyntax: true,
 });
 console.log(`✅ - 플러그인 빌드 작업이 완료되었습니다!`);
