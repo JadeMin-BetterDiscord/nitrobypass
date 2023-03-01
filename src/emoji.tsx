@@ -37,6 +37,7 @@ export default {
 					message.content = message.content.replace(emoji, emojiUrl);
 				});
 			}
+			return args;
 		});
 	},
 	async stop() {
