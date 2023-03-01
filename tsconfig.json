@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"strict": true,
+
+		"resolveJsonModule": true,
+		
+		"module": "NodeNext",
+		"target": "esnext",
+
+		"jsx": "react"
+	}
+}
