@@ -5,7 +5,6 @@ import { getMetaString } from "./meta.js";
 
 const defaultBuildOptions: BuildOptions = {
 	entryPoints: ["./src/index.tsx"],
-	//outExtension: {'.js': '.plugin.js'},
 	charset: 'utf8',
 
 	platform: 'node',
