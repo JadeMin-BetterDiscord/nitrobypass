@@ -22,7 +22,7 @@ const defaultBuildOptions: BuildOptions = {
 
 await ESBuild.build({
 	...defaultBuildOptions,
-	outfile: `${process.env.APPDATA}/BetterDiscord/plugins/${getMeta('name')}.plugin.js`,
+	outfile: `${process.env.APPDATA}/BetterDiscord/plugins/${getMeta('name').replace(/\s/g, '_')}.plugin.js`,
 
 	minify: true,
 });
