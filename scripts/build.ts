@@ -1,7 +1,7 @@
 import type { BuildOptions } from 'esbuild';
 
 import ESBuild from 'esbuild';
-import { getStringMeta, getMeta } from "./meta.js";
+import { getMetaString, getMeta } from "./meta.js";
 
 const defaultBuildOptions: BuildOptions = {
 	entryPoints: ["./src/index.tsx"],
@@ -14,7 +14,7 @@ const defaultBuildOptions: BuildOptions = {
 	treeShaking: true,
 
 	banner: {
-		js: getStringMeta()
+		js: getMetaString()
 	}
 };
 
