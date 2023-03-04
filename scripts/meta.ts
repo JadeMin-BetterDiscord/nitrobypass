@@ -1,9 +1,9 @@
-import META from "../meta.json" assert {type: "json"};
+import META from "../meta.json";
 
 /*const toMetaHeader = ([key, value]: [string, string]): string => {
 	return ` * @${key} ${value}`;
 };*/
-const toMetaString = (meta: {[K: string]: string}): string => {
+const toMetaString = (meta: {[KEY: string]: string}) => {
 	return Object.entries(meta).map(([key, value])=> ` * @${key} ${value}`).join("\n");
 };
 
