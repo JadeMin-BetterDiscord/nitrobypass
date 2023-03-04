@@ -1,14 +1,20 @@
-import type { BuildOptions } from 'esbuild';
+import type { BuildOptions, BuildContext } from 'esbuild';
+import type { BuildTypes } from "./@types/build.js";
 
-import ESBuild from 'esbuild';
+import { build, context } from 'esbuild';
 import PLUGIN_GlobImport from 'esbuild-plugin-import-glob';
+import { buildTyping } from "./@types/build.js";
 import { getMetaString, getMeta } from "./meta.js";
 
-const defaultBuildOptions: BuildOptions = {
+const buildArgv = process.argv.slice(2)[0] as BuildTypes;
+const buildType = buildTyping(buildArgv);
+const pluginFilename = getMeta('name').replace(/\s/g, '_');
+const isBDMode = buildType.PUBLISH_BD || buildType.TEST_BD;
+const defaultOptions: BuildOptions = {
 	entryPoints: ["./src/index.ts"],
 	charset: 'utf8',
 
-	platform: 'neutral',
+	platform: 'node',
 	format: 'cjs',
 	
 	bundle: true,
@@ -25,16 +31,15 @@ const defaultBuildOptions: BuildOptions = {
 
 
 
-await ESBuild.build({
-	...defaultBuildOptions,
-	outfile: `${process.env.APPDATA}/BetterDiscord/plugins/${getMeta('name').replace(/\s/g, '_')}.plugin.js`,
+await build({
+	...defaultOptions,
+	outfile: isBDMode?
+		`${process.env.APPDATA}/BetterDiscord/plugins/${pluginFilename}.plugin.js`
+		:
+		`./dist/${pluginFilename}.plugin.js`,
 
-	minify: true,
+	minify: buildType.PUBLISH,
+	minifySyntax: buildType.TEST,
 });
-await ESBuild.build({
-	...defaultBuildOptions,
-	outfile: "./dist/NitroBypass.plugin.js",
-
-	minifySyntax: true,
-});
+if(isBDMode) console.log(`✅ - 플러그인을 BetterDiscord에 설치하였습니다!`);
 console.log(`✅ - 플러그인 빌드 작업이 완료되었습니다!`);
