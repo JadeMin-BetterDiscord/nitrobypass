@@ -1,13 +1,14 @@
 import type { BuildOptions } from 'esbuild';
 
 import ESBuild from 'esbuild';
+import PLUGIN_GlobImport from 'esbuild-plugin-import-glob';
 import { getMetaString, getMeta } from "./meta.js";
 
 const defaultBuildOptions: BuildOptions = {
-	entryPoints: ["./src/index.tsx"],
+	entryPoints: ["./src/index.ts"],
 	charset: 'utf8',
 
-	platform: 'node',
+	platform: 'neutral',
 	format: 'cjs',
 	
 	bundle: true,
@@ -15,7 +16,11 @@ const defaultBuildOptions: BuildOptions = {
 
 	banner: {
 		js: getMetaString()
-	}
+	},
+
+	plugins: [
+		PLUGIN_GlobImport.default()
+	]
 };
 
 

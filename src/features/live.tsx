@@ -1,8 +1,9 @@
 import type { APIUser } from 'discord-api-types/v10';
-import type { ToCamel } from "./.modules/extensions.d.js";
+import type { ToCamel } from "../../@types/extensions.js";
+import type { FeatureModule } from "../features.js";
 declare type UserPremiumType = -1 | 0 | 1 | 2 | 3;
 
-const { Webpack } = BdApi;
+const { React, Webpack, Patcher, UI } = BdApi;
 let defaultPremiumType: UserPremiumType = -1;
 const getCurrentUser = async (): Promise<ToCamel<APIUser>> => {
 	return (
@@ -12,7 +13,7 @@ const getCurrentUser = async (): Promise<ToCamel<APIUser>> => {
 
 
 
-export default {
+const module: FeatureModule = {
 	async start() {
 		const currentUser = await getCurrentUser();
 		defaultPremiumType = currentUser.premiumType!;
@@ -23,3 +24,5 @@ export default {
 		currentUser.premiumType = defaultPremiumType;
 	},
 } as const;
+
+export default module;

@@ -1,12 +1,13 @@
 import type { APIMessage } from 'discord-api-types/v10';
-import type { ToCamel } from "./.modules/extensions.js";
+import type { ToCamel } from "../../@types/extensions.js";
+import type { FeatureModule } from "../features.js";
 
-const { Webpack, Patcher } = BdApi;
+const { React, Webpack, Patcher, UI } = BdApi;
 
 
 
-export default {
-	async start() {
+const module: FeatureModule = {
+	start() {
 		const MessageActions = Webpack.getModule(Webpack.Filters.byProps("jumpToMessage", "_sendMessage"));
 		
 		
@@ -40,8 +41,10 @@ export default {
 			return args;
 		});
 	},
-	async stop() {
+	stop() {
 		Patcher.unpatchAll('SEND_EMOJI');
 		Patcher.unpatchAll('EDIT_EMOJI');
 	},
 } as const;
+
+export default module;
