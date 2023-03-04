@@ -10,7 +10,6 @@ import { getMetaString, getMeta } from "./meta.js";
 const buildArgv = process.argv.slice(2)[0] as BuildTypes;
 const buildType = buildTyping(buildArgv);
 const pluginFilename = getMeta('name').replace(/\s/g, '_');
-const isBDMode = buildType.PUBLISH_BD || buildType.TEST_BD;
 const defaultOptions: BuildOptions = {
 	entryPoints: ["./src/index.ts"],
 	charset: 'utf8',
@@ -43,7 +42,7 @@ await build({
 });
 console.log(`✅ - 플러그인 빌드 작업이 완료되었습니다!`);
 
-if(isBDMode) {
+if(buildType.PUBLISH_BD || buildType.TEST_BD) {
 	await build({
 		...defaultOptions,
 		outfile: `${process.env.APPDATA}/BetterDiscord/plugins/${pluginFilename}.plugin.js`,
