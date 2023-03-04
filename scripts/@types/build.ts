@@ -1,4 +1,4 @@
-const TYPES = ["PUBLISH", "TEST", "PUBLISH_BD", "TEST_BD"] as const;
+const TYPES = ["PUBLISH", "TEST", "BD"] as const;
 
 export type BuildTypes = typeof TYPES[number] | undefined;
 export type BuildTypingResult = {

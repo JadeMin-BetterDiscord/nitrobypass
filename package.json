@@ -2,7 +2,10 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "tsx ./scripts/build.ts"
+		"build": "tsx ./scripts/build.ts",
+		"build:publish": "npm run build PUBLISH",
+		"build:test": "npm run build TEST",
+		"build:publish_bd": "npm run build PUBLISH && npm run build BD"
 	},
 	"dependencies": {
 		"discord-api-types": "^0.37.35"
