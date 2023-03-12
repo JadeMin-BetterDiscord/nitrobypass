@@ -1,6 +1,6 @@
 import type { APIMessage } from 'discord-api-types/v10';
-import type { ToCamel } from "../../@types/extensions.js";
-import type { FeatureModule } from "../features.js";
+import type { ToCamel } from "../../@types/extensions.d.js";
+import type { FeatureModule } from "../features.d.js";
 
 const { React, Webpack, Patcher, UI } = BdApi;
 
