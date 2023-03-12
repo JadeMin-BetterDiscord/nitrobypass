@@ -18,3 +18,7 @@ export const buildTyping = (buildArgv: BuildTypes): BuildTypingResult => {
 
 	return result;
 };
+
+export const getCurrentType = (buildType: BuildTypingResult): BuildTypes => {
+	return TYPES.find(type=> buildType[type]);
+};
