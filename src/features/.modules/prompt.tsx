@@ -1,22 +1,17 @@
 const { React, Webpack } = BdApi;
+const SEARCH_EXPORTS = {
+	searchExports: true
+} as const;
 
 
 
 // ref: https://github.com/rauenzi/BDPluginLibrary/blob/master/src/modules/discordmodules.js
 export const prompt = async (title: string, defaultValue=''): Promise<string | null> => {
 	const { Messages } = await Webpack.waitForModule(m=> m?.Messages && Object.keys(m?.Messages).length);
-	const ConfirmationModal = await Webpack.waitForModule(m=> m?.toString?.()?.includes?.(".confirmButtonColor"), {
-		searchExports: true
-	});
-	const ButtonData = await Webpack.waitForModule(m=> m?.BorderColors, {
-		searchExports: true
-	});
-	const TextBox = await Webpack.waitForModule(m=> m?.defaultProps?.type === "text", {
-		searchExports: true
-	});
-	const openModal = await Webpack.waitForModule(m=> m?.toString?.()?.includes?.("onCloseCallback") && m?.toString?.()?.includes?.("Layer"), {
-		searchExports: true
-	});
+	const ConfirmationModal = await Webpack.waitForModule(m=> m?.toString?.()?.includes?.(".confirmButtonColor"), SEARCH_EXPORTS);
+	const ButtonData = await Webpack.waitForModule(m=> m?.BorderColors, SEARCH_EXPORTS);
+	const TextBox = await Webpack.waitForModule(m=> m?.defaultProps?.type === "text", SEARCH_EXPORTS);
+	const openModal = await Webpack.waitForModule(m=> m?.toString?.()?.includes?.("onCloseCallback") && m?.toString?.()?.includes?.("Layer"), SEARCH_EXPORTS);
 	let toReturn = defaultValue;
 
 
