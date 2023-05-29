@@ -12,7 +12,7 @@ export const prompt = async (title: string, defaultValue=''): Promise<string | n
 	const ButtonData = await Webpack.waitForModule(m=> m?.BorderColors, SEARCH_EXPORTS);
 	const TextBox = await Webpack.waitForModule(m=> m?.defaultProps?.type === "text", SEARCH_EXPORTS);
 	const openModal = await Webpack.waitForModule(m=> m?.toString?.()?.includes?.("onCloseCallback") && m?.toString?.()?.includes?.("Layer"), SEARCH_EXPORTS);
-	let toReturn = defaultValue;
+	let toReturn: string = defaultValue;
 
 
 	return new Promise((resolve) => {
