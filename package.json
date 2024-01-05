@@ -3,9 +3,9 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsx ./scripts/build.ts",
-		"build:publish": "npm run build PUBLISH",
-		"build:test": "npm run build TEST",
-		"publish": "npm run build BD"
+		"build:publish": "pnpm run build PUBLISH",
+		"build:test": "pnpm run build TEST",
+		"inject": "pnpm run build BD"
 	},
 	"dependencies": {
 		"discord-api-types": "^0.37.67",
