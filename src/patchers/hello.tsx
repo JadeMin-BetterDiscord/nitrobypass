@@ -3,6 +3,7 @@ import type { ToCamel } from "../../@types/extensions.d.ts";*/
 import type { Module } from "./patchers.d.ts";
 
 import { prompt } from "./.modules/prompt.tsx";
+
 const { React, Webpack, Patcher, UI } = BdApi;
 
 
