@@ -1,16 +1,15 @@
 import type { Plugin } from 'betterdiscord';
-import type { ExportedModule } from "./features.js";
 
-//@ts-expect-error
-import features from "./features/*.tsx";
+import features from "./patchers.ts";
 
 
 
 export default class implements Plugin {
 	public start(): void {
-		features.forEach((m: ExportedModule)=> m.default.start());
-	};
+		features.forEach(m => new m().start());
+	}
+
 	public stop(): void {
-		features.forEach((m: ExportedModule)=> m.default.stop());
-	};
+		features.forEach(m => new m().stop());
+	}
 };
