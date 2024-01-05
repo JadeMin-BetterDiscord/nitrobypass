@@ -1,5 +1,5 @@
 import type { APIUser } from 'discord-api-types/v10';
-import type { ToCamel } from "../../@types/extensions.d.ts";
+import type { ToCamel } from "../@types/extensions.js";
 import type { Module } from "./patchers.d.ts";
 type UserPremiumType = 0 | 1 | 2 | 3;
 
