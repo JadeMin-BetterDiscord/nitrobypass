@@ -22,6 +22,5 @@ export default class implements Module {
 			</div>
 		));*/
 	}
-
 	public stop() {}
 };

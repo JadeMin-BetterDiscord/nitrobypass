@@ -5,29 +5,47 @@ type UserPremiumType = 0 | 1 | 2 | 3;
 
 const { React, Webpack, Patcher, UI } = BdApi;
 
-const getCurrentUser = async (): Promise<ToCamel<APIUser>> => {
-	const { getCurrentUser } = await Webpack.waitForModule(
-		Webpack.Filters.byKeys("getCurrentUser")
-	);
-
-	return getCurrentUser();
-};
-
-let defaultPremiumType: UserPremiumType = 0;
-
 
 
 export default class implements Module {
-	public async start() {
-		const currentUser = await getCurrentUser();
+	private defaultPremiumType: UserPremiumType;
+	private timer: NodeJS.Timeout | null;
 
-		defaultPremiumType = currentUser.premiumType!;
-		currentUser.premiumType = 2;
+	public constructor() {
+		this.defaultPremiumType = 0;
+		this.timer = null;
 	}
-	
-	public async stop() {
-		const currentUser = await getCurrentUser();
 
-		currentUser.premiumType = defaultPremiumType;
+	private async getCurrentUser(): Promise<ToCamel<APIUser>> {
+		const { getCurrentUser } = await Webpack.waitForModule(
+			Webpack.Filters.byKeys("getCurrentUser")
+		);
+	
+		return getCurrentUser();
+	}
+	private async setFakePremium() {
+		const currentUser = await this.getCurrentUser();
+
+		this.defaultPremiumType = currentUser.premiumType!;
+		currentUser.premiumType = 2;
+
+		console.debug("Automatically spoofed as a Nitro user.");
+	}
+	private async restoreDefaultPremium() {
+		const currentUser = await this.getCurrentUser();
+
+		currentUser.premiumType = this.defaultPremiumType;
+	}
+
+	public async start() {
+		await this.setFakePremium();
+
+		this.timer = setInterval(async () => {
+			await this.setFakePremium();
+		}, 1000 * 10);
+	}
+	public async stop() {
+		clearInterval(this.timer!);
+		this.restoreDefaultPremium();
 	}
 };

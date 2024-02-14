@@ -40,7 +40,6 @@ export default class implements Module {
 			return args;
 		});
 	}
-
 	public stop() {
 		Patcher.unpatchAll('SEND_EMOJI');
 		Patcher.unpatchAll('EDIT_EMOJI');

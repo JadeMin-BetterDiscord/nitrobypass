@@ -1,15 +1,22 @@
 import type { Plugin } from 'betterdiscord';
+import type { Module } from "./patchers/patchers.d.ts";
 
 import features from "./patchers.ts";
 
 
 
 export default class implements Plugin {
-	public start() {
-		features.forEach(m => new m().start());
+	private modules: Module[] = [];
+
+	public constructor() {
+		this.modules = features.map(m => new m());
 	}
 
+
+	public start() {
+		this.modules.forEach(m => m.start());
+	}
 	public stop() {
-		features.forEach(m => new m().stop());
+		this.modules.forEach(m => m.stop());
 	}
 };
