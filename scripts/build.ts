@@ -39,7 +39,7 @@ await build({
 });
 console.log(`✅ - 플러그인 빌드 작업이 완료되었습니다!`);
 
-if(buildType.BD) {
+if (buildType.BD) {
 	await copyFile(
 		`./dist/${pluginName}.plugin.js`,
 		`${process.env.APPDATA}/BetterDiscord/plugins/${pluginName}.plugin.js`

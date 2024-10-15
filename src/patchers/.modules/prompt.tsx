@@ -7,7 +7,7 @@ const SEARCH_EXPORTS = {
 
 
 // ref: https://github.com/rauenzi/BDPluginLibrary/blob/master/src/modules/discordmodules.js
-export const prompt = async (title: string, defaultValue=''): Promise<string | null> => {
+export async function prompt(title: string, defaultValue=''): Promise<string | null> {
 	const { Messages } = await Webpack.waitForModule(m => m?.Messages && Object.keys(m?.Messages).length);
 	const ConfirmationModal = await Webpack.waitForModule(m => m?.toString?.()?.includes?.(".confirmButtonColor"), SEARCH_EXPORTS);
 	const ButtonData = await Webpack.waitForModule(m => m?.BorderColors, SEARCH_EXPORTS);
@@ -18,7 +18,7 @@ export const prompt = async (title: string, defaultValue=''): Promise<string | n
 
 	return new Promise((resolve) => {
 		openModal((props: any) => {
-			if(props.transitionState === 3) return resolve(null);
+			if (props.transitionState === 3) return resolve(null);
 
 			return (
 				<ConfirmationModal
@@ -49,4 +49,4 @@ export const prompt = async (title: string, defaultValue=''): Promise<string | n
 			);
 		});
 	});
-};
+}

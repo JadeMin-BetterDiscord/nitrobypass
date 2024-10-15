@@ -1,6 +1,6 @@
+import type { Module } from "./patchers.d.ts";
 /*import type { APIMessage } from 'discord-api-types/v10';
 import type { ToCamel } from "../../@types/extensions.d.ts";*/
-import type { Module } from "./patchers.d.ts";
 
 import { prompt } from "./.modules/prompt.tsx";
 
@@ -23,4 +23,4 @@ export default class implements Module {
 		));*/
 	}
 	public stop() {}
-};
+}

@@ -1,6 +1,6 @@
+import type { Module } from "./patchers.d.ts";
 import type { APIUser } from 'discord-api-types/v10';
 import type { ToCamel } from "../@types/extensions.js";
-import type { Module } from "./patchers.d.ts";
 type UserPremiumType = 0 | 1 | 2 | 3;
 
 const { React, Webpack, Patcher, UI } = BdApi;
@@ -29,7 +29,7 @@ export default class implements Module {
 		this.defaultPremiumType = currentUser.premiumType!;
 		currentUser.premiumType = 2;
 
-		console.debug("Automatically spoofed as a Nitro user.");
+		console.debug("Successfully Spoofed as a Nitro user");
 	}
 	private async restoreDefaultPremium() {
 		const currentUser = await this.getCurrentUser();
@@ -48,4 +48,4 @@ export default class implements Module {
 		clearInterval(this.timer!);
 		this.restoreDefaultPremium();
 	}
-};
+}

@@ -19,4 +19,4 @@ export default class implements Plugin {
 	public stop() {
 		this.modules.forEach(m => m.stop());
 	}
-};
+}
