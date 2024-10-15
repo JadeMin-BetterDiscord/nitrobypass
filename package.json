@@ -7,13 +7,11 @@
 		"build:test": "pnpm run build TEST",
 		"inject": "pnpm run build BD"
 	},
-	"dependencies": {
-		"discord-api-types": "^0.37.69",
-		"esbuild": "^0.20.0",
-		"tsx": "^4.7.1"
-	},
 	"devDependencies": {
 		"@types/betterdiscord": "github:zerthox/betterdiscord-types",
-		"@types/node": "^20.11.17"
+		"@types/node": "^22.7.5",
+		"discord-api-types": "^0.37.102",
+		"esbuild": "^0.24.0",
+		"tsx": "^4.19.1"
 	}
 }
