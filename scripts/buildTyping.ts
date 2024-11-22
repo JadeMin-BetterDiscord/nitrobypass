@@ -1,13 +1,13 @@
 const TYPES = ["PUBLISH", "TEST", "BD"] as const;
 
-export type BuildTypes = typeof TYPES[number] | undefined;
+export type BuildTypes = typeof TYPES[number];
 export type BuildTypingResult = {
-	[KEY in typeof TYPES[number]]: boolean;
+	[K in BuildTypes]: boolean;
 };
 
 
 
-export function getBuildType(buildArgv: BuildTypes): BuildTypingResult {
+export function getBuildType(buildArgv: BuildTypes | undefined): BuildTypingResult {
 	if (buildArgv === undefined)
 		throw new TypeError("빌드 타입을 지정해주세요.");
 	if (!TYPES.includes(buildArgv))
@@ -26,6 +26,6 @@ export function getBuildType(buildArgv: BuildTypes): BuildTypingResult {
 /**
  * @deprecated
  */
-export function getCurrentType(buildType: BuildTypingResult): BuildTypes {
+export function getCurrentType(buildType: BuildTypingResult): BuildTypes | undefined {
 	return TYPES.find(type => buildType[type]);
 }

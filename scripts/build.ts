@@ -9,7 +9,7 @@ import { getMetaString, getMetaByKey } from "./meta.ts";
 
 const pluginName = getMetaByKey('name').replace(/\s/g, '_');
 
-const buildArgv = process.argv.slice(2)[0] as BuildTypes;
+const buildArgv = process.argv.slice(2)[0] as BuildTypes | undefined;
 const buildType = getBuildType(buildArgv);
 const defaultOption: BuildOptions = {
 	entryPoints: ["./src/index.ts"],
