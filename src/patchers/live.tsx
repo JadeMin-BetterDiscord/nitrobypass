@@ -42,7 +42,7 @@ export default class implements Module {
 
 		this.timer = setInterval(async () => {
 			await this.setFakePremium();
-		}, 1000 * 10);
+		}, 10 * 1000);
 	}
 	public async stop() {
 		clearInterval(this.timer!);

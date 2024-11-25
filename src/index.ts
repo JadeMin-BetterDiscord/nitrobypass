@@ -6,7 +6,7 @@ import features from "./patchers.ts";
 
 
 export default class implements Plugin {
-	private modules: Module[] = [];
+	private modules: Module[];
 
 	public constructor() {
 		this.modules = features.map(m => new m());
