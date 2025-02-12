@@ -11,7 +11,7 @@
 		"@types/betterdiscord": "github:zerthox/betterdiscord-types",
 		"@types/node": "^22.7.5",
 		"discord-api-types": "^0.37.102",
-		"esbuild": "^0.24.0",
+		"esbuild": "^0.25.0",
 		"tsx": "^4.19.1"
 	}
 }
